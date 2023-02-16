@@ -101,8 +101,8 @@
     }
 
     main.normal {
-        background-color: #FCFCFC;
-        border: 1px solid #E2E2E2;
+        background-color: var(--gray1);
+        border: 1px solid var(--gray4);
     }
 
     main.twitter {
@@ -119,7 +119,7 @@
 
     main.shadow {
         border: none;
-        background-color: rgba(0, 0, 0, 0.05);
+        background-color: var(--gray3);
     }
 
     main.grabbing {

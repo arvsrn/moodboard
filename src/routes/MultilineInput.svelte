@@ -17,16 +17,16 @@
         min-height: 48px;
         height: fit-content;
 
-        color: #222222;
+        color: var(--gray12);
         outline: none;
     }
 
     [placeholder]:empty::before {
         content: attr(placeholder);
-        color: #a0a0a0; 
+        color: var(--gray11); 
         cursor: text;
     }
-    
+
     [placeholder]:not(:empty)::before {
         content: "";
     }

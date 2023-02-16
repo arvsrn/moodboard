@@ -36,12 +36,11 @@
         height: 32px;
         
         font-family: 'Inter';
-        font-weight: 500;
         font-size: 13px;
         line-height: 15px;
 
         background: transparent;        
-        color: #222222;
+        color: var(--gray12);
         border-radius: 4px;
 
         display: flex;
@@ -58,14 +57,14 @@
     }
 
     button:hover {
-        background: #F3F3F3;
+        background: var(--gray2);
     }
 
     span {
         font-family: Inter;
         font-size: 12px;
         
-        color: #A0A0A0;
+        color: var(--gray11);
         margin-left: auto;
     }
 </style>

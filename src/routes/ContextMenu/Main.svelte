@@ -16,11 +16,11 @@
         height: fit-content;
 
         border-radius: 8px;
-        border: 1px solid rgba(0, 0, 0, 0.05);
+        border: 1px solid var(--gray2);
 
         padding: 6px;
 
-        background: #FCFCFC;
+        background: var(--gray1);
         position: absolute;
 
         display: flex;

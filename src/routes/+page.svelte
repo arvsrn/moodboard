@@ -1,7 +1,10 @@
 <script lang="ts">
     import Card from "./Card.svelte";
     import MultilineInput from "./MultilineInput.svelte";
+    import Navbar from "./Navbar.svelte";
 </script>
+
+<Navbar></Navbar>
 
 <main>
     <Card position={[4, 4]} size={["500px", "250px"]}>
@@ -12,7 +15,7 @@
         <MultilineInput placeholder="Write something cool here"></MultilineInput>
     </Card>
 
-    <Card position={[25, 4]} size={["500px", "500px"]} style="twitter">
+    <Card position={[25, 4]} size={["500px", "500px"]}>
         
     </Card>
 </main>
@@ -22,10 +25,10 @@
         width: 100vw;
         height: 100vh;
 
-        background-color: #F3F3F3;
+        background-color: var(--gray2);
         position: absolute;
 
-        overflow: scroll;
+        overflow: auto;
     }
 
     img {

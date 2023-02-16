@@ -53,6 +53,8 @@
     grabbing = true;
     pos3 = e.changedTouches[0].pageX;
     pos4 = e.changedTouches[0].pageY;
+
+    window.navigator.vibrate(100);
 }}>
     <div class="container">
         <slot></slot>

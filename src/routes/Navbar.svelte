@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Sun, Moon, Pencil2 } from 'radix-icons-svelte';
+    import { Sun, Moon, Pencil2, Link1 } from 'radix-icons-svelte';
     import { onMount } from 'svelte';
     import ContextMenu from './ContextMenu/Main.svelte';
     import Option from './ContextMenu/Option.svelte';
@@ -59,7 +59,10 @@
             </ContextMenu>
         {/if}
     </div>
-    <div style="margin-left: auto;">
+    <div style="margin-left:auto;display:flex;flex-direction:row;gap:8px;align-items:center;">
+        <button class="list">
+            <Link1 /> Copy link
+        </button>
         <button class="square" on:click={() => mode = !mode}>
             {#if mode}
                 <Moon></Moon>

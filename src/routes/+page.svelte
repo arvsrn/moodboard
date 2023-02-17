@@ -7,6 +7,7 @@
     import Navbar from "./Navbar.svelte";
     import Actions from "./Modal/Actions.svelte";
     import Input from "./Input.svelte";
+    import Notifications from "./Notifications.svelte";
 
     enum Popup {
         REMOVE_BOARD,
@@ -21,22 +22,33 @@
         'Something',
     ];
 
+    let offset: [number, number] = [0, 0];
+    let offsetOffset: [number, number] = [0, 0];
+    let dragStart: [number, number] = [0, 0];
+    let dragging: boolean = false;
+
     let currentList: number = 0;
     let renamePopupInputValue: string = "";
+    let notifications: Array<string> = [];
 </script>
 
 <Navbar {lists} removeList={i => showPopup = Popup.REMOVE_BOARD} bind:currentList={currentList} renameList={i => showPopup = Popup.RENAME_BOARD}></Navbar>
 
-<main>
-    <Card position={[4, 4]} size={["500px", "250px"]}>
+<main on:mousedown={e => {
+    if (e.button === 1) {
+        dragging = true;
+        dragStart = [e.clientX, e.clientY];
+    };
+}}>
+    <Card position={[4, 4]} size={["500px", "250px"]} bind:offset={offset}>
         <img src="https://creatorspace.imgix.net/users/cle5e0fjh0000mt0yeh5krcpy/DDN4rzgFJl1zcONw-Fa7OYw0XoAAbrfA.jpeg?w=750&h=750" alt="" draggable="false">
     </Card>
 
-    <Card position={[4, 15]} size={["500px", "fit-content"]}>
+    <Card position={[4, 15]} size={["500px", "fit-content"]} bind:offset={offset}>
         <MultilineInput placeholder="Write something cool here"></MultilineInput>
     </Card>
 
-    <Card position={[25, 4]} size={["500px", "500px"]}>
+    <Card position={[25, 4]} size={["200px", "200px"]} bind:offset={offset}>
         
     </Card>
 </main>
@@ -67,11 +79,27 @@
 </Blanket>
 {/if}
 
+<!--WIP-->
+<Notifications bind:notifications={notifications}></Notifications>
+
 <svelte:window on:keydown={e => {
     if (e.key === 'Delete') {
         if (lists.length > 1) {
             showPopup = Popup.REMOVE_BOARD;
         }
+    }
+}} on:mouseup={() => {
+    dragging = false;
+    offsetOffset = [0, 0];
+}} on:mousemove={e => {
+    if (dragging) {
+        offset[0] -= offsetOffset[0];
+        offset[1] -= offsetOffset[1];
+        
+        offsetOffset = [e.clientX - dragStart[0], e.clientY - dragStart[1]];
+
+        offset[0] += offsetOffset[0];
+        offset[1] += offsetOffset[1];
     }
 }}></svelte:window>
 

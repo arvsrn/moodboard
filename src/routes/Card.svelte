@@ -8,6 +8,7 @@
     export let position: [number, number];
     export let size: [string, string];
     export let style: 'normal' | 'twitter' = 'normal';
+    export let offset: [number, number];
 
     let width: string = size[0];
     let height: string = size[1];
@@ -33,13 +34,13 @@
 </script>
 
 {#if grabbing}
-    <main class="shadow" style="position: absolute; left: {Math.round(position[0]) * UNIT}px; top: {Math.round(position[1]) * UNIT}px; width: {width}; height: {height};"></main>
+    <main class="shadow" style="position: absolute; left: {(Math.round(position[0]) * UNIT) + offset[0]}px; top: {(Math.round(position[1]) * UNIT) + offset[1]}px; width: {width}; height: {height};"></main>
 {/if}
 
 <main bind:this={card} style={
     grabbing ? 
-    `position: absolute; left: ${position[0] * UNIT}px; top: ${position[1] * UNIT}px; width: ${width}; height: ${height}; transform: rotateZ(${deltaX}deg);` :
-    `position: absolute; left: ${Math.round(position[0]) * UNIT}px; top: ${Math.round(position[1]) * UNIT}px; width: ${width}; height: ${height};`
+    `position: absolute; left: ${(position[0] * UNIT) + offset[0]}px; top: ${(position[1] * UNIT) + offset[1]}px; width: ${width}; height: ${height}; transform: rotateZ(${deltaX}deg);` :
+    `position: absolute; left: ${Math.round((position[0]) * UNIT) + offset[0]}px; top: ${(Math.round(position[1]) * UNIT) + offset[1]}px; width: ${width}; height: ${height};`
 } class={style} class:grabbing={grabbing} on:mousedown={(e) => {
     if (e.button === 0) {
         grabbing = true;
@@ -74,7 +75,7 @@
         pos3 = e.clientX;
         pos4 = e.clientY;
 
-        position = [(card.offsetLeft - pos1) / UNIT, (card.offsetTop - pos2) / UNIT];
+        position = [(card.offsetLeft - pos1 - offset[0]) / UNIT, (card.offsetTop - pos2 - offset[1]) / UNIT];
     }
 }} on:touchend={() => grabbing = false} on:touchmove={e => {
     if (grabbing) {

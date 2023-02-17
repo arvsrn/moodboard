@@ -1,6 +1,5 @@
 <script lang="ts">
     import { clickOutside } from 'svelte-use-click-outside';
-    import { fade } from 'svelte/transition';
     
     export let showContextMenu: boolean;
     export let contextMenuPosition: number[];

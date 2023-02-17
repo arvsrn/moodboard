@@ -13,7 +13,7 @@
     {#if icon}
         <svelte:component this={icon}></svelte:component>
     {/if}
-    {text} <span>{key} {#if $$slots.submenu} <CaretRight></CaretRight> {/if}</span>
+    <p>{text}</p> <span>{key} {#if $$slots.submenu} <CaretRight></CaretRight> {/if}</span>
 
     {#if showSubmenu && $$slots.submenu}
         <div on:mouseenter={() => showSubmenu = true} on:mouseleave={() => showSubmenu = false}><slot name="submenu"/></div>
@@ -34,10 +34,6 @@
     button {
         width: 100%;
         height: 32px;
-        
-        font-family: 'Inter';
-        font-size: 13px;
-        line-height: 15px;
 
         background: transparent;        
         color: var(--gray12);
@@ -54,6 +50,19 @@
         cursor: pointer;
 
         position: relative;
+    }
+
+    button > p {
+        width: fit-content;
+        text-align: start;
+
+        font-family: 'Inter';
+        font-size: 13px;
+        line-height: 15px;
+
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
     }
 
     button:hover {

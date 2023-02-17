@@ -40,7 +40,7 @@
 <main bind:this={card} style={
     grabbing ? 
     `position: absolute; left: ${(position[0] * UNIT) + offset[0]}px; top: ${(position[1] * UNIT) + offset[1]}px; width: ${width}; height: ${height}; transform: rotateZ(${deltaX}deg);` :
-    `position: absolute; left: ${Math.round((position[0]) * UNIT) + offset[0]}px; top: ${(Math.round(position[1]) * UNIT) + offset[1]}px; width: ${width}; height: ${height};`
+    `position: absolute; left: ${(Math.round(position[0]) * UNIT) + offset[0]}px; top: ${(Math.round(position[1]) * UNIT) + offset[1]}px; width: ${width}; height: ${height};`
 } class={style} class:grabbing={grabbing} on:mousedown={(e) => {
     if (e.button === 0) {
         grabbing = true;

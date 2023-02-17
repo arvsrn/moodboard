@@ -1,13 +1,15 @@
 <script lang="ts">
-    import { Sun, Moon, Pencil2, Link1 } from 'radix-icons-svelte';
+    import { Sun, Moon, Pencil2, Link1, Link2 } from 'radix-icons-svelte';
     import { onMount } from 'svelte';
     import ContextMenu from './ContextMenu/Main.svelte';
     import Option from './ContextMenu/Option.svelte';
+    import Input from './Input.svelte';
 
     // is light mode
     let mode: boolean = false;
     let mounted: boolean = false;
     let showLists: boolean = false;
+    let showShareMenu: boolean = false;
 
     export let removeList: (i: number) => void;
     export let renameList: (i: number) => void;
@@ -45,24 +47,33 @@
         </button>
 
         {#if showLists}
-            <ContextMenu bind:showContextMenu={showLists} contextMenuPosition={[0, 40]}>
-                {#each lists as list, i}
-                    <Option text={list} action={() => {
-                        currentList = i;
-                        showLists = false;
-                    }}></Option>
-                {/each}
+        <ContextMenu bind:showContextMenu={showLists} contextMenuPosition={[0, 40]}>
+            {#each lists as list, i}
+                <Option text={list} action={() => {
+                    currentList = i;
+                    showLists = false;
+                }}></Option>
+            {/each}
 
-                <div style="width:100%;height:1px;background:var(--gray3);margin:6px 0px;"></div>
-                <Option text="Rename" action={() => renameList(currentList)} icon={Pencil2}></Option>
-                <Option text="Remove" action={() => removeList(currentList)} key="Del"></Option>
-            </ContextMenu>
+            <div style="width:100%;height:1px;background:var(--gray3);margin:6px 0px;"></div>
+
+            <Option text="Rename" action={() => renameList(currentList)} icon={Pencil2}></Option>
+            <Option text="Remove" action={() => removeList(currentList)} key="Del"></Option>
+        </ContextMenu>
         {/if}
     </div>
     <div style="margin-left:auto;display:flex;flex-direction:row;gap:8px;align-items:center;">
-        <button class="list">
-            <Link1 /> Copy link
-        </button>
+        <div style="position: relative;">
+            <button class="list" on:click={() => showShareMenu = true}>
+                <Link2 /> Share
+            </button>
+
+            {#if showShareMenu}
+            <ContextMenu bind:showContextMenu={showShareMenu} contextMenuPosition={[-220, 40]} width={300}>
+                <Input placeholder="Link" value="mood.aarv.me/7dEj4kLqsT"/>
+            </ContextMenu>
+            {/if}
+        </div>
         <button class="square" on:click={() => mode = !mode}>
             {#if mode}
                 <Moon></Moon>

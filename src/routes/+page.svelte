@@ -8,10 +8,12 @@
     import Actions from "./Modal/Actions.svelte";
     import Input from "./Input.svelte";
     import Notifications from "./Notifications.svelte";
+    import { Image, Text } from "radix-icons-svelte";
 
     enum Popup {
         REMOVE_BOARD,
         RENAME_BOARD,
+        ADD_ITEM,
         NONE,
     }
 
@@ -77,6 +79,20 @@
         }} secondaryButtonCallback={() => showPopup = Popup.NONE} style="normal" secondaryButtonLabel="Cancel" primaryButtonLabel="Save"></Actions>
     </Main>
 </Blanket>
+{:else if showPopup === Popup.ADD_ITEM}
+<Blanket onClick={() => showPopup = Popup.NONE}>
+    <Main>
+        <Heading title="Paste link" description="Paste any link and it'll be embedded appropriately."></Heading>
+        <div style="width:100%;height:fit-content;padding:0px 12px 0px 12px;">
+            <Input value="" placeholder="Link here..."></Input>
+        </div>
+        <Heading title="Other widgets" description=""></Heading>
+        <div style="width:100%;height:fit-content;padding:0px 12px;display:flex;flex-direction:column;gap:6px;padding-bottom:4px;">
+            <button><Image/> Pictures & Video</button>
+            <button><Text/> Note</button>
+        </div>
+    </Main>
+</Blanket>
 {/if}
 
 <!--WIP-->
@@ -117,5 +133,44 @@
     img {
         width: 100%;
         user-select: none;
+        filter: saturate(50%);
+    }
+
+    button {
+        width: 100%;
+        height: 36px;
+
+        background-color: var(--gray2);
+        border: 1px solid var(--gray4);
+
+        outline: none;
+
+        color: var(--gray12);
+
+        border-radius: 8px;
+        transition: transform 0.1s ease-in-out;
+
+        overflow: hidden;
+        cursor: pointer;
+
+        position: relative;
+
+        font-size: 14px;
+        font-family: Inter;
+        font-weight: 500;
+
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+        align-items: center;
+        padding: 12px;
+    }
+
+    button:hover {
+        transform: scale(1.01);
+    }
+
+    button:active {
+        transform: scale(0.99);
     }
 </style>

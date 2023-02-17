@@ -3,15 +3,15 @@
     
     export let showContextMenu: boolean;
     export let contextMenuPosition: number[];
+    export let width: number = 200;
 </script>
 
-<main style="left: {contextMenuPosition[0]}px; top: {contextMenuPosition[1]}px;" use:clickOutside={() => showContextMenu = false}>
+<main style="left: {contextMenuPosition[0]}px; top: {contextMenuPosition[1]}px; width: {width}px;" use:clickOutside={() => showContextMenu = false}>
     <slot></slot>
 </main>
 
 <style>
     main {
-        width: 200px;
         height: fit-content;
 
         border-radius: 8px;

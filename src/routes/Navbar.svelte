@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Sun, Moon } from 'radix-icons-svelte';
+    import { Sun, Moon, Pencil2 } from 'radix-icons-svelte';
     import { onMount } from 'svelte';
     import ContextMenu from './ContextMenu/Main.svelte';
     import Option from './ContextMenu/Option.svelte';
@@ -8,6 +8,11 @@
     let mode: boolean = false;
     let mounted: boolean = false;
     let showLists: boolean = false;
+
+    export let removeList: (i: number) => void;
+    export let renameList: (i: number) => void;
+    export let lists: Array<string>;
+    export let currentList: number = 0;
 
     onMount(() => mounted = true);
 
@@ -32,7 +37,7 @@
     </button>
     <div style="position: relative">
         <button class="list" on:click={() => showLists = true}>
-            Today's moodboard
+            {lists[currentList]}
             <svg width="7" height="10" viewBox="0 0 7 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M0.10518 3.90805C0.252079 4.07951 0.498184 4.08819 0.654867 3.92746L3.50001 1.00882L4.92256 2.46814L6.34512 3.92746C6.50184 4.08819 6.74793 4.07951 6.89485 3.90805C7.0417 3.7366 7.03377 3.4673 6.87712 3.30657L3.76598 0.115091C3.61639 -0.0383637 3.38362 -0.0383637 3.23403 0.115091L0.122914 3.30657C-0.0337778 3.4673 -0.0417111 3.7366 0.10518 3.90805Z" fill="currentColor"/>
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M0.10518 6.09153C0.252079 5.92007 0.498184 5.91139 0.654867 6.07212L3.50001 8.99076L6.34512 6.07212C6.50184 5.91139 6.74793 5.92007 6.89485 6.09153C7.0417 6.26298 7.03377 6.53227 6.87712 6.69301L3.76598 9.88451C3.61639 10.038 3.38362 10.038 3.23403 9.88451L0.122914 6.69301C-0.0337778 6.53227 -0.0417111 6.26298 0.10518 6.09153Z" fill="currentColor"/>
@@ -41,8 +46,16 @@
 
         {#if showLists}
             <ContextMenu bind:showContextMenu={showLists} contextMenuPosition={[0, 40]}>
-                <Option text="Today's moodboard" action={() => {}}></Option>
-                <Option text="Design inspiration" action={() => {}}></Option>
+                {#each lists as list, i}
+                    <Option text={list} action={() => {
+                        currentList = i;
+                        showLists = false;
+                    }}></Option>
+                {/each}
+
+                <div style="width:100%;height:1px;background:var(--gray3);margin:6px 0px;"></div>
+                <Option text="Rename" action={() => renameList(currentList)} icon={Pencil2}></Option>
+                <Option text="Remove" action={() => removeList(currentList)} key="Del"></Option>
             </ContextMenu>
         {/if}
     </div>

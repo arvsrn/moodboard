@@ -34,6 +34,8 @@
     let addToast: (notification: { heading: string; description: string; }) => void;
 
     let lastScrollTop: number = 0;
+    let holdingN: boolean = false;
+    let holdingShift: boolean = false;
 </script>
 
 <Navbar {lists} removeList={i => {
@@ -157,7 +159,15 @@
 <Toast bind:addNotification={addToast}></Toast>
 
 <button class="tip" on:click={() => showPopup = Popup.ADD_ITEM}>
-    Shift + N to add card
+    Add card 
+    <svg style="margin-left:4px;" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" class:active={holdingShift}>
+        <rect width="20" height="20" rx="4" fill="var(--bg)"/>
+        <path d="M3.81818 11.2273L9.95455 5.09091L16.0909 11.2273H13.0909V14.5H6.81818V11.2273H3.81818ZM7.25284 9.94886H8.59091V13.2216H11.3182V9.94886H12.6562L9.95455 7.24716L7.25284 9.94886Z" fill="var(--fg)"/>
+    </svg>           
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" class:active={holdingN}>
+        <rect width="20" height="20" rx="4" fill="var(--bg)"/>
+        <path d="M13.6136 5.77273V14.5H11.6364L8.48295 9.91477H8.43182V14.5H6.0625V5.77273H8.07386L11.1761 10.3409H11.2443V5.77273H13.6136Z" fill="var(--fg)"/>
+    </svg>           
 </button>
 
 <svelte:window on:keydown={e => {
@@ -174,6 +184,18 @@
         }
     } else if ((e.key === 'N' || e.key === 'n') && e.shiftKey) {
         showPopup = Popup.ADD_ITEM;
+    } 
+    
+    if (e.key === 'N' || e.key === 'n') {
+        holdingN = true;
+    } else if (e.key === 'Shift') {
+        holdingShift = true;
+    }
+}} on:keyup={e => {
+    if (e.key === 'N' || e.key === 'n') {
+        holdingN = false;
+    } else if (e.key === 'Shift') {
+        holdingShift = false;
     }
 }} on:mouseup={() => {
     dragging = false;
@@ -263,7 +285,7 @@
 
     button.tip {
         font-family: Inter;
-        font-size: 12px;
+        font-size: 13px;
         font-weight: 600;
         color: var(--gray11);
         
@@ -280,9 +302,25 @@
         border-radius: 6px;
 
         transition: background 0.1s ease-in-out;
+
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 2px;
     }
 
     button.tip:hover {
         background: var(--gray4);
+    }
+
+    svg {
+        --bg: #282828;
+        --fg: #7E7E7E;
+    }
+
+    svg.active {
+        --bg: #343434;
+        --fg: #A0A0A0;
     }
 </style>

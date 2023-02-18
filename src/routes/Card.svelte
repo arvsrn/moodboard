@@ -81,8 +81,8 @@
     if (grabbing) {
         pos1 = pos3 - e.changedTouches[0].pageX;
         pos2 = pos4 - e.changedTouches[0].pageY;
-        pos3 = e.changedTouches[0].pageX;
-        pos4 = e.changedTouches[0].pageY;
+        pos3 = e.changedTouches[0].pageX + offset[0];
+        pos4 = e.changedTouches[0].pageY + offset[1];
 
         position = [(card.offsetLeft - pos1) / UNIT, (card.offsetTop - pos2) / UNIT];
     }

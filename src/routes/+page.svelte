@@ -52,6 +52,14 @@
         dragging = true;
         dragStart = [e.clientX, e.clientY];
     };
+}} on:touchstart|self={e => {
+    console.log('Uranium-235');
+
+    dragging = true;
+    dragStart = [
+        e.changedTouches[0].pageX,
+        e.changedTouches[0].pageY,
+    ];
 }}>
     <Card position={[4, 4]} size={["500px", "250px"]} bind:offset={offset}>
         <img src="https://creatorspace.imgix.net/users/cle5e0fjh0000mt0yeh5krcpy/DDN4rzgFJl1zcONw-Fa7OYw0XoAAbrfA.jpeg?w=750&h=750" alt="" draggable="false">
@@ -138,8 +146,8 @@
         </div>
         <Heading title="Other widgets" description=""></Heading>
         <div style="width:100%;height:fit-content;padding:0px 24px;display:flex;flex-direction:column;gap:6px;padding-bottom:16px;">
-            <button><Image/> Pictures & Video</button>
-            <button><Text/> Note</button>
+            <button class="wide"><Image/> Pictures & Video</button>
+            <button class="wide"><Text/> Note</button>
         </div>
     </Main>
 </Blanket>
@@ -148,7 +156,9 @@
 <!--WIP-->
 <Toast bind:addNotification={addToast}></Toast>
 
-<p style="font-family:Inter;font-size:12px;font-weight:600;color:var(--gray11);position:absolute;left:50%;bottom:24px;transform:translateX(-50%);">Shift + N to add card</p>
+<button class="tip" on:click={() => showPopup = Popup.ADD_ITEM}>
+    Shift + N to add card
+</button>
 
 <svelte:window on:keydown={e => {
     console.log(e);
@@ -178,6 +188,22 @@
         offset[0] += offsetOffset[0];
         offset[1] += offsetOffset[1];
     }
+}} on:touchend={() => {
+    dragging = false;
+    offsetOffset = [0, 0];
+}} on:touchmove={e => {
+    if (dragging) {
+        offset[0] -= offsetOffset[0];
+        offset[1] -= offsetOffset[1];
+        
+        offsetOffset = [
+            e.changedTouches[0].pageX - dragStart[0], 
+            e.changedTouches[0].pageY - dragStart[1]
+        ];
+
+        offset[0] += offsetOffset[0];
+        offset[1] += offsetOffset[1];
+    }
 }}></svelte:window>
 
 <style>
@@ -197,7 +223,7 @@
         filter: saturate(50%);
     }
 
-    button {
+    button.wide {
         width: 100%;
         height: 36px;
 
@@ -227,11 +253,36 @@
         padding: 12px;
     }
 
-    button:hover {
+    button.wide:hover {
         transform: scale(1.01);
     }
 
-    button:active {
+    button.wide:active {
         transform: scale(0.99);
+    }
+
+    button.tip {
+        font-family: Inter;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--gray11);
+        
+        position: absolute;
+        left: 50%;
+        bottom: 24px;
+        transform: translateX(-50%);
+
+        padding: 8px 12px;
+
+        background: transparent;
+        border: none;
+        outline: none;
+        border-radius: 6px;
+
+        transition: background 0.1s ease-in-out;
+    }
+
+    button.tip:hover {
+        background: var(--gray4);
     }
 </style>

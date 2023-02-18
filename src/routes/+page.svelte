@@ -118,7 +118,12 @@
 {#if showPopup === Popup.REMOVE_BOARD}
 <Blanket onClick={() => showPopup = Popup.NONE}>
     <Main>
-        <Heading title="Remove board '{lists[currentList]}'" description="Are you sure? This cannot be undone."></Heading>
+        <div style="display:flex;flex-direction:column;align-items:flex-start;padding:24px;gap:16px;border-bottom:1px solid #232323;">
+            <h1 style="font-family:Inter;font-style:normal;font-weight:700;font-size:14px;line-height:17px;color:var(--gray12);">
+                Remove '{lists[currentList]}'
+            </h1>
+            <p style="font-family:Inter;font-style:normal;font-weight:400;font-size:14px;line-height:17px;color:#A0A0A0;">Are you sure? This cannot be undone.</p>
+        </div>
         <Actions primaryButtonCallback={() => {
             lists.splice(currentList, 1);
             lists = lists;
@@ -129,9 +134,11 @@
 {:else if showPopup === Popup.RENAME_BOARD}
 <Blanket onClick={() => showPopup = Popup.NONE}>
     <Main>
-        <Heading title="Rename board" description=""></Heading>
-        <div style="width:100%;height:fit-content;padding:0px 16px 16px 24px;">
-            <Input placeholder={lists[currentList]} bind:value={renamePopupInputValue}/>
+        <div style="display:flex;flex-direction:column;align-items:flex-start;padding:24px;gap:16px;border-bottom:1px solid #232323;">
+            <h1 style="font-family:Inter;font-style:normal;font-weight:700;font-size:14px;line-height:17px;color:var(--gray12);">
+                Rename board
+            </h1>
+            <Input bind:value={renamePopupInputValue} placeholder={lists[currentList]}></Input>
         </div>
         <Actions primaryButtonCallback={() => {
             lists[currentList] = renamePopupInputValue;
@@ -142,14 +149,21 @@
 {:else if showPopup === Popup.ADD_ITEM}
 <Blanket onClick={() => showPopup = Popup.NONE}>
     <Main>
-        <Heading title="Paste link" description="Paste any link and it'll be embedded appropriately."></Heading>
-        <div style="width:100%;height:fit-content;padding:0px 24px 0px 24px;margin-bottom:8px;">
-            <Input value="" placeholder="Link here..."></Input>
-        </div>
-        <Heading title="Other widgets" description=""></Heading>
-        <div style="width:100%;height:fit-content;padding:0px 24px;display:flex;flex-direction:column;gap:6px;padding-bottom:16px;">
-            <button class="wide"><Image/> Pictures & Video</button>
-            <button class="wide"><Text/> Note</button>
+        <div style="display:flex;flex-direction:column;align-items:flex-start;padding:24px;gap:16px;width:100%;height:fit-content;border-bottom:1px solid #232323;">
+            <h1 style="font-family:Inter;font-style:normal;font-weight:700;font-size:14px;line-height:17px;color:var(--gray12);">
+                Add card
+            </h1>
+            <Input value="" placeholder="Paste link"></Input>
+            <div style="display:flex;flex-direction:row;align-items:flex-start;padding:0px;gap:16px;">
+                <button class="card-option">
+                    <img draggable="false" src="https://cdn.discordapp.com/attachments/1074712152771919934/1076533443715940502/image.png" alt="">
+                    <p style="font-family:Inter;font-style:normal;font-weight:700;font-size:14px;line-height:16px;color:var(--gray12);position:absolute;left:12px;bottom:12px;">Media</p>
+                </button>
+                <button class="card-option">
+                    <img draggable="false" src="https://cdn.discordapp.com/attachments/1074712152771919934/1076533394126680064/image.png" alt="">
+                    <p style="font-family:Inter;font-style:normal;font-weight:700;font-size:14px;line-height:16px;color:var(--gray1);position:absolute;left:12px;bottom:12px;">Text</p>
+                </button>
+            </div>
         </div>
     </Main>
 </Blanket>
@@ -242,45 +256,19 @@
     img {
         width: 100%;
         user-select: none;
-        filter: saturate(50%);
     }
 
-    button.wide {
+    button.card-option {
         width: 100%;
-        height: 36px;
-
-        background-color: var(--gray2);
-        border: 1px solid var(--gray4);
-
-        outline: none;
-
-        color: var(--gray12);
-
-        border-radius: 8px;
-        transition: transform 0.1s ease-in-out;
-
-        overflow: hidden;
-        cursor: pointer;
+        aspect-ratio: 1/1;
 
         position: relative;
 
-        font-size: 14px;
-        font-family: Inter;
-        font-weight: 500;
-
-        display: flex;
-        flex-direction: row;
-        gap: 8px;
-        align-items: center;
-        padding: 12px;
-    }
-
-    button.wide:hover {
-        transform: scale(1.01);
-    }
-
-    button.wide:active {
-        transform: scale(0.99);
+        border-radius: 12px;
+        outline: none;
+        overflow: hidden;
+        border: none;
+        cursor: pointer;
     }
 
     button.tip {

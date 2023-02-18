@@ -7,10 +7,8 @@
 </script>
 
 <main>
-    <div style="margin-left:auto;display:flex;flex-direction:row;gap:8px;">
-        <button class="secondary" on:click={secondaryButtonCallback}>{secondaryButtonLabel}</button>
-        <button class="{style}" on:click={primaryButtonCallback}>{primaryButtonLabel}</button>
-    </div>
+    <button class="secondary" on:click={secondaryButtonCallback}>{secondaryButtonLabel}</button>
+    <button class="{style}" on:click={primaryButtonCallback}>{primaryButtonLabel}</button>
 </main>
 
 <style>
@@ -21,10 +19,10 @@
 
         display: flex;
         flex-direction: row;
-        padding: 16px;
-        padding-left: 24px;
-        padding-top: 0px;
+        justify-content: flex-end;
         align-items: center;
+        padding: 24px;
+        gap: 8px;
     }
 
     button {
@@ -46,14 +44,15 @@
     }
 
     button.secondary {
-        border: 1px solid var(--gray6);
-        background-color: var(--gray2);
-        color: var(--gray11);
+        background: var(--gray2);
+        border: 1px solid var(--gray3);
+        border-radius: 6px;
+        color: var(--gray12);
     }
 
     button.danger {
         border: none;
-        background-color: #FF2C2C;
+        background-color: #E5484D;
         color: var(--gray12); 
     }
 

@@ -70,7 +70,7 @@
 
             {#if showShareMenu}
             <ContextMenu bind:showContextMenu={showShareMenu} contextMenuPosition={[-220, 40]} width={300}>
-                <Input placeholder="Link" value="mood.aarv.me/7dEj4kLqsT"/>
+                <Input placeholder="Link" value="mood.aarv.me/7dEj4kLqsT" disabled/>
             </ContextMenu>
             {/if}
         </div>

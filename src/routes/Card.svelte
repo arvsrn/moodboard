@@ -7,7 +7,7 @@
 
     export let position: [number, number];
     export let size: [string, string];
-    export let style: 'normal' | 'twitter' = 'normal';
+    export let style: 'normal' | 'twitter' | 'youtube' = 'normal';
     export let offset: [number, number];
 
     let width: string = size[0];
@@ -106,9 +106,24 @@
         border: 1px solid var(--gray4);
     }
 
-    main.twitter {
-        background-color: #F5FAFE;
-        border: 1px solid #E2E6EA;
+    :global(body.dark main.twitter) {
+        background-color: #1C2932;
+        border: 1px solid #34414d;
+    }
+
+    :global(body.dark main.youtube) {
+        background-color: #331919;
+        border: 1px solid #472e2e;
+    }
+
+    :global(body.light main.twitter) {
+        background-color: #E2EFF8;
+        border: 1px solid #d5d9dd;
+    }
+
+    :global(body.light main.youtube) {
+        background-color: #F9DFDF;
+        border: 1px solid #d8d0d0;
     }
 
     div.container {

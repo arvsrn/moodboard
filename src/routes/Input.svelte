@@ -1,9 +1,10 @@
 <script lang="ts">
     export let placeholder: string = "";
     export let value: string;
+    export let disabled: boolean = false;
 </script>
 
-<input type="text" {placeholder} bind:value={value}>
+<input type="text" {placeholder} bind:value={value} {disabled}>
 
 <style>
     input {

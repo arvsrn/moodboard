@@ -5,10 +5,11 @@
     padding: 0px;
     margin: 0px;
     -webkit-tap-highlight-color: transparent;
+    user-select: none;
 }
 
-:not(p, h1, h2, h3, h4, h5, h6, span, a) {
-    user-select: none;
+p, h1, h2, h3, h4, h5, h6, span, a {
+    user-select: text !important;
 }
 
 ::selection {

@@ -7,8 +7,8 @@
     import Navbar from "./Navbar.svelte";
     import Actions from "./Modal/Actions.svelte";
     import Input from "./Input.svelte";
-    import Notifications from "./Notifications.svelte";
     import { Image, Text } from "radix-icons-svelte";
+    import Toast from "./Toast.svelte";
 
     enum Popup {
         REMOVE_BOARD,
@@ -31,12 +31,21 @@
 
     let currentList: number = 0;
     let renamePopupInputValue: string = "";
-    let notifications: Array<string> = [];
+    let addToast: (notification: { heading: string; description: string; }) => void;
 
     let lastScrollTop: number = 0;
 </script>
 
-<Navbar {lists} removeList={i => showPopup = Popup.REMOVE_BOARD} bind:currentList={currentList} renameList={i => showPopup = Popup.RENAME_BOARD}></Navbar>
+<Navbar {lists} removeList={i => {
+    if (lists.length > 1) {
+        showPopup = Popup.REMOVE_BOARD
+    } else {
+        addToast({
+            heading: 'Can\'t delete',
+            description: 'You must have atleast one board.'
+        });
+    }
+}} bind:currentList={currentList} renameList={i => showPopup = Popup.RENAME_BOARD}></Navbar>
 
 <main on:mousedown={e => {
     if (e.button === 1) {
@@ -124,11 +133,11 @@
 <Blanket onClick={() => showPopup = Popup.NONE}>
     <Main>
         <Heading title="Paste link" description="Paste any link and it'll be embedded appropriately."></Heading>
-        <div style="width:100%;height:fit-content;padding:0px 12px 0px 12px;">
+        <div style="width:100%;height:fit-content;padding:0px 24px 0px 24px;margin-bottom:8px;">
             <Input value="" placeholder="Link here..."></Input>
         </div>
         <Heading title="Other widgets" description=""></Heading>
-        <div style="width:100%;height:fit-content;padding:0px 12px;display:flex;flex-direction:column;gap:6px;padding-bottom:4px;">
+        <div style="width:100%;height:fit-content;padding:0px 24px;display:flex;flex-direction:column;gap:6px;padding-bottom:16px;">
             <button><Image/> Pictures & Video</button>
             <button><Text/> Note</button>
         </div>
@@ -137,7 +146,7 @@
 {/if}
 
 <!--WIP-->
-<Notifications bind:notifications={notifications}></Notifications>
+<Toast bind:addNotification={addToast}></Toast>
 
 <p style="font-family:Inter;font-size:12px;font-weight:600;color:var(--gray11);position:absolute;left:50%;bottom:24px;transform:translateX(-50%);">Shift + N to add card</p>
 
@@ -147,6 +156,11 @@
     if (e.key === 'Delete') {
         if (lists.length > 1) {
             showPopup = Popup.REMOVE_BOARD;
+        } else {
+            addToast({
+                heading: 'Can\'t delete',
+                description: 'You must have atleast one board.'
+            });
         }
     } else if ((e.key === 'N' || e.key === 'n') && e.shiftKey) {
         showPopup = Popup.ADD_ITEM;

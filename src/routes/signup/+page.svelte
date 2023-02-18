@@ -70,7 +70,7 @@
     </svg>        
     
     <div class="container">
-        <button class="square" style="color: var(--gray12);">
+        <button class="square" style="color:var(--gray12);margin-bottom:8px;">
             <svg width="19" height="21" viewBox="0 0 19 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M0.888889 16.5378L8.61111 12.0757V21H10.3889V12.0757L18.1111 16.5378L19 14.9761L11.3056 10.5139L19 6.05179L18.1111 4.49004L10.3889 8.95219V0H8.61111V8.95219L0.888889 4.49004L0 6.05179L7.69444 10.5139L0 14.9761L0.888889 16.5378Z" fill="currentColor"/>
             </svg>                  

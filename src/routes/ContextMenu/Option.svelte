@@ -1,7 +1,7 @@
 <script lang="ts">
     import { CaretRight } from "radix-icons-svelte";
 
-    export let icon: ConstructorOfATypedSvelteComponent | undefined = undefined;
+    export let icon: ConstructorOfATypedSvelteComponent | null = null;
     export let text: string;
     export let key: string = "";
     export let action: () => void;

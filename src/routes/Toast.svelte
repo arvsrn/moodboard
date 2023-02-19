@@ -18,7 +18,9 @@
     {#each notifications as notification, i} 
     <div transition:slide={{ duration: 85 }} class="toast" style="--index:{notifications.length - 1 - i};">
         <h1>{notification.heading}</h1>
+        {#if notification.description}
         <p>{notification.description}</p>
+        {/if}
 
         <div style="position:absolute;height:100%;aspect-ratio:1/1;right:0px;top:0px;display:flex;align-items:center;justify-content:center;">
             <button on:click={() => {

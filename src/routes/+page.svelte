@@ -21,6 +21,8 @@
         type: 'media' | 'text' | 'link';
         content: string;
         position: [number, number];
+        width?: number;
+        height?: number;
     }
 
     let showPopup: Popup = Popup.NONE;
@@ -56,6 +58,43 @@
     let holdingN: boolean = false;
     let holdingShift: boolean = false;
     let addItemPopupLinkInputValue: string = "";
+
+    async function pasteImage() {
+        try {
+            const clipboardContents = await navigator.clipboard.read();
+            
+            for (const item of clipboardContents) {
+                if (!item.types.includes("image/png")) {
+                    addToast({ heading: 'Error', description: "Clipboard contains non-image data" });
+                    return;
+                }
+
+                const blob = await item.getType("image/png");
+                
+                let reader = new FileReader();
+                reader.readAsDataURL(blob);
+                reader.onloadend = () => {
+                    // @ts-ignore
+                    const image = new Image();
+                    image.src = reader.result?.toString() || "";
+                    
+                    image.onload = () => {
+                        cards = [...cards, {
+                            type: 'media',
+                            content: reader.result?.toString() || "",
+                            position: [0, 0],
+                            width: image.width,
+                            height: image.height,
+                        }];
+                        addToast({ heading: 'Added card', description: "Media at [0, 0]" });
+                    }
+                }
+            }
+        } catch (error) {
+            addToast({ heading: 'Error', description: JSON.stringify(error) });
+        }
+    }
+
 </script>
 
 <Navbar {lists} removeList={i => {
@@ -88,6 +127,14 @@
             <TextEmbed bind:position={card.position} bind:offset={offset}></TextEmbed>
         {:else if card.type === 'link'}
             <LinkEmbed bind:position={card.position} bind:offset={offset} link={card.content}></LinkEmbed>
+        {:else if card.type === 'media'}
+            <!--Only supports images for now-->
+            <Card bind:position={card.position} size={[
+                card.width ? card.width - (card.width % 25) + "px" : "0px", 
+                card.height ? card.height - (card.height % 25) + "px" : "0px"
+            ]} bind:offset={offset}>
+                <img src={card.content} alt="" draggable="false">
+            </Card>
         {/if}
     {/each}
 </main>
@@ -130,7 +177,7 @@
             <h1 style="font-family:Inter;font-style:normal;font-weight:700;font-size:14px;line-height:17px;color:var(--gray12);">
                 Add card
             </h1>
-            <Input bind:value={addItemPopupLinkInputValue} placeholder="Paste link" onEnter={() => {
+            <Input autofocus bind:value={addItemPopupLinkInputValue} placeholder="Paste link" onEnter={() => {
                 // Add link embed
                 cards = [...cards, {
                     type: 'link',
@@ -166,6 +213,7 @@
                 </button>
             </div>
         </div>
+        <Actions primaryButtonLabel="Save" secondaryButtonLabel="Cancel" primaryButtonCallback={() => {}} secondaryButtonCallback={() => {}}></Actions>
     </Main>
 </Blanket>
 {/if}
@@ -241,6 +289,13 @@
         offset[0] += offsetOffset[0];
         offset[1] += offsetOffset[1];
     }
+}} on:paste|preventDefault={async e => {
+    if (!e.clipboardData) {
+        addToast({ heading: 'Error', description: 'clipboardData is null' });
+        return;
+    }
+    
+    pasteImage();
 }}></svelte:window>
 
 <style>

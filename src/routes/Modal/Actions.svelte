@@ -51,7 +51,6 @@
     button.secondary {
         background: var(--gray2);
         border: 1px solid var(--gray3);
-        border-radius: 6px;
         color: var(--gray12);
     }
 

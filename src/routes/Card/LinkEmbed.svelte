@@ -5,12 +5,6 @@
     export let offset: [number, number];
     export let position: [number, number];
     export let link: string;
-
-    onMount(() => {
-        fetch(link, { method: 'GET' }).then(res => {
-            console.log(res.body);
-        });
-    });
 </script>
 
 <Card bind:position={position} size={["300px", "175px"]} bind:offset={offset}>

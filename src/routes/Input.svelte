@@ -2,9 +2,12 @@
     export let placeholder: string = "";
     export let value: string;
     export let disabled: boolean = false;
+    export let onEnter: () => void = () => {};
 </script>
 
-<input type="text" {placeholder} bind:value={value} {disabled}>
+<input type="text" {placeholder} bind:value={value} {disabled} on:keypress={e => {
+    if (e.key === 'Enter') onEnter();
+}}>
 
 <style>
     input {

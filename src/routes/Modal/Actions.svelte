@@ -11,6 +11,11 @@
     <button class="{style}" on:click={primaryButtonCallback}>{primaryButtonLabel}</button>
 </main>
 
+<svelte:window on:keydown={e => {
+    if (e.key === 'Escape') secondaryButtonCallback();
+    else if (e.key === 'Enter') primaryButtonCallback();
+}} />
+
 <style>
     main {
         width: 100%;

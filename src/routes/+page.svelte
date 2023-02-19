@@ -121,6 +121,13 @@
         e.changedTouches[0].pageX,
         e.changedTouches[0].pageY,
     ];
+}} on:paste|preventDefault={async e => {
+    if (!e.clipboardData) {
+        addToast({ heading: 'Error', description: 'clipboardData is null' });
+        return;
+    }
+    
+    pasteImage();
 }}>
     {#each cards as card} 
         {#if card.type === 'text'}
@@ -162,7 +169,7 @@
             <h1 style="font-family:Inter;font-style:normal;font-weight:700;font-size:14px;line-height:17px;color:var(--gray12);">
                 Rename board
             </h1>
-            <Input bind:value={renamePopupInputValue} placeholder={lists[currentList]}></Input>
+            <Input {addToast} bind:value={renamePopupInputValue} placeholder={lists[currentList]}></Input>
         </div>
         <Actions primaryButtonCallback={() => {
             lists[currentList] = renamePopupInputValue;
@@ -173,11 +180,11 @@
 {:else if showPopup === Popup.ADD_ITEM}
 <Blanket onClick={() => showPopup = Popup.NONE}>
     <Main>
-        <div style="display:flex;flex-direction:column;align-items:flex-start;padding:24px;gap:16px;width:100%;height:fit-content;border-bottom:1px solid #232323;">
+        <div style="display:flex;flex-direction:column;align-items:flex-start;padding:24px;gap:16px;width:100%;height:fit-content;">
             <h1 style="font-family:Inter;font-style:normal;font-weight:700;font-size:14px;line-height:17px;color:var(--gray12);">
                 Add card
             </h1>
-            <Input autofocus bind:value={addItemPopupLinkInputValue} placeholder="Paste link" onEnter={() => {
+            <Input {addToast} regex={/[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/} errorMessage="Input must be link" autofocus bind:value={addItemPopupLinkInputValue} placeholder="Paste link" onEnter={() => {
                 // Add link embed
                 cards = [...cards, {
                     type: 'link',
@@ -213,7 +220,6 @@
                 </button>
             </div>
         </div>
-        <Actions primaryButtonLabel="Save" secondaryButtonLabel="Cancel" primaryButtonCallback={() => {}} secondaryButtonCallback={() => {}}></Actions>
     </Main>
 </Blanket>
 {/if}
@@ -289,13 +295,6 @@
         offset[0] += offsetOffset[0];
         offset[1] += offsetOffset[1];
     }
-}} on:paste|preventDefault={async e => {
-    if (!e.clipboardData) {
-        addToast({ heading: 'Error', description: 'clipboardData is null' });
-        return;
-    }
-    
-    pasteImage();
 }}></svelte:window>
 
 <style>

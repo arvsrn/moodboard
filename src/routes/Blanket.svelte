@@ -14,7 +14,7 @@
         position: absolute;
         top: 0px;
         left: 0px;
-        z-index: 10001;
+        z-index: 5;
 
         display: flex;
         align-items: center;

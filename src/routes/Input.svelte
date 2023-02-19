@@ -6,6 +6,9 @@
     export let disabled: boolean = false;
     export let onEnter: () => void = () => {};
     export let autofocus: boolean = false;
+    export let regex: RegExp = /.*/;
+    export let errorMessage: string = "";
+    export let addToast: (notification: { heading: string, description: string }) => void;
 
     let self: HTMLInputElement;
 
@@ -14,8 +17,14 @@
     });
 </script>
 
-<input bind:this={self} type="text" {placeholder} bind:value={value} {disabled} on:keypress={e => {
-    if (e.key === 'Enter') onEnter();
+<input bind:this={self} type="text" {placeholder} bind:value={value} {disabled} class:error={!regex.test(value)} on:keypress={e => {
+    if (e.key === 'Enter') {
+        if (regex.test(value)) {
+            onEnter();
+        } else {
+            addToast({ heading: 'Invalid input', description: errorMessage });
+        }
+    }
 }}>
 
 <style>
@@ -35,5 +44,9 @@
 
     input::placeholder {
         color: var(--gray11);
+    }
+
+    input.error {
+        border: 1px solid red;
     }
 </style>
